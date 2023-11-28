@@ -30,25 +30,24 @@ const GameBoard = () => {
     pickVersus();
   }, []);
 
-  const pickVersus = () => {
+  const pickVersus = () => { //pick game mode
     if (gameState === -1) {
-      console.log("game select");
     }
   };
-  const initGame = () => {
+  const initGame = () => { // pvp init
     setGameBoard(Array(NO_CIRCLES).fill(NO_PLAYER));
     setCurrentPlayer(PLAYER_1); //lets do something here to random pick who go first
     setGameState(GAME_STATE_PLAYING);
   };
 
-  const onNewGameClickComputer = () => {
+  const onNewGameClickComputer = () => { //vs com init
+	alert("* * * COMPUTER PLAYER WILL NOT AUTO-PLAY, YOU MUST PRESS THE GREEN BUTTON * * *");
     setGameBoard(Array(NO_CIRCLES).fill(NO_PLAYER));
     setCurrentPlayer(PLAYER_1);
     setGameState(GAME_STATE_PLAYING_COM);
-    console.log("Player com game " + GAME_STATE_PLAYING_COM);
   };
 
-  const initBoard = () => {
+  const initBoard = () => { //board init
     const circles = [];
     for (let i = 0; i < NO_CIRCLES; i++) {
       circles.push(renderCircle(i));
@@ -56,9 +55,9 @@ const GameBoard = () => {
     return circles;
   };
 
-  const suggestMove = () => {
+  const suggestMove = () => { // automove
     if (currentPlayer === PLAYER_1) {
-      alert("* * *Human player turn * * *");
+      alert("* * *HUMAN PLAYER TURN * * *");
     } else {
       circleClicked(getComputerMove(gameBoard));
     }
@@ -68,6 +67,21 @@ const GameBoard = () => {
   }
 
   const circleClicked = (id) => {
+    if (gameState === -1) {
+      alert("* * * SELECT GAME MODE * * *");
+    }
+    var circles = document.getElementsByClassName("gameCircle");
+    if (gameState === GAME_STATE_PLAYING_COM && currentPlayer === PLAYER_1) {
+      for (var i = 0; i < circles.length; i++) {
+        circles[i].style.pointerEvents = "none";
+      }
+    }
+    if (gameState === GAME_STATE_PLAYING_COM && currentPlayer === PLAYER_2) {
+      for (var i = 0; i < circles.length; i++) {
+        circles[i].style.pointerEvents = "auto";
+      }
+    }
+
     console.log("CP: IF INCIAL " + currentPlayer);
     console.log("FLUJO ELSE NORMAL ");
     if (gameBoard[id] !== NO_PLAYER) return;
@@ -86,7 +100,6 @@ const GameBoard = () => {
       setGameState(GAME_STATE_DRAW);
       setWinPlayer(NO_PLAYER);
     }
-
     setGameBoard((prev) => {
       return prev.map((circle, pos) => {
         if (pos === id) return currentPlayer;

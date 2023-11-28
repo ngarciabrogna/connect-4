@@ -6,7 +6,6 @@ export const Footer = ({
   onSuggestClick,
   gameState,
   onNewGameClickComputer,
-  playerCom,
 }) => {
   const renderButtons = () => {
     if (gameState === GAME_STATE_PLAYING_COM) {
@@ -15,12 +14,9 @@ export const Footer = ({
           COM PLAY
         </button>
       );
-    }else if(gameState === GAME_STATE_PLAYING){
-	return (
-		<span className="playing center">Game is running!</span>
-	)	
-	}
-else {
+    } else if (gameState === GAME_STATE_PLAYING) {
+      return <span className="playing center">Game is running!</span>;
+    } else {
       return (
         <>
           <button className="button-2" onClick={onNewGameCLick}>
